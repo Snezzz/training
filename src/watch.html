@@ -27,30 +27,35 @@
             <label for="secondname" class="col-2 col-xs-3 col-sm-4 col-md-3 col-lg-2 col-xl-2 col-form-label">Фамилия:</label>
             <div class="col-11 col-xs-8 col-sm-8 col-md-8 col-lg-8 col-xl-8">
                 <input type="text" class="form-control" id="secondname">
+                <div class="error"></div>
             </div>
         </div>
             <div class="form-group row">
                 <label for="firstname" class="col-2 col-xs-3 col-sm-4 col-md-3 col-lg-2 col-xl-2 col-form-label">Имя:</label>
                 <div class="col-11 col-xs-8 col-sm-8 col-md-8 col-lg-8 col-xl-8">
                     <input type="text" class="form-control" id="firstname">
+                    <div class="error"></div>
                 </div>
             </div>
             <div class="form-group row">
                 <label for="fathername" class="col-2 col-xs-3 col-sm-4 col-md-3 col-lg-2 col-xl-2 col-form-label">Отчество:</label>
                 <div class="col-11 col-xs-8 col-sm-8 col-md-8 col-lg-8 col-xl-8">
                     <input type="text" class="form-control" id="fathername" >
+                    <div class="error"></div>
                 </div>
             </div>
             <div class="form-group row">
                 <label for="date" class="col-2 col-xs-3 col-sm-4 col-md-3 col-lg-2 col-xl-2 col-form-label">Дата рождения:</label>
                 <div class="col-11 col-xs-8 col-sm-8 col-md-8 col-lg-8 col-xl-8">
                     <input type="text" class="form-control" id="date" placeholder="12.11.1998">
+                    <div class="error"></div>
                 </div>
             </div>
             <div class="form-group row">
                 <label for="polisnumber" class="col-2 col-xs-3 col-sm-4 col-md-3 col-lg-2 col-xl-2 col-form-label">Номер полиса:</label>
                 <div class="col-11 col-xs-8 col-sm-8 col-md-8 col-lg-8 col-xl-8">
                     <input type="text" class="form-control" id="polisnumber">
+                    <div class="error"></div>
                 </div>
             </div>
         <button type="button" class="btn btn-outline-success" onclick="search()">Узнать взятые номерки</button>
@@ -107,7 +112,25 @@
         //find=typeCheck(find,[checkText]);
       find();
     }
-
+$("form div div ").keyup(function(){
+    var text = document.getElementsByTagName("input")[0];
+    var val = text.value;
+    var arr=[];
+    arr=val.split("");
+    var to_drw=[];
+        for (var i in arr) {
+            if ((arr[i] / 1)) {
+                $(this).css("color", "red");
+                $(".error").html("<span>Только буквы</span>");
+                $(".error").attr("style","visibility:visible !important");
+                break;
+            }
+            else {
+                $("form div div input").css("color", "black")
+                $(".error").attr("style","visibility:hidden !important");
+            }
+    }
+});
     function giveInform(f,s,father,date,polis){
         this.firstname=f;
         this.secondname=s;
