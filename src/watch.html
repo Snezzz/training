@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="css/watch.css">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-2.2.4.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="row">
+        <div class="col-10 col-xs-9 col-sm-9 col-md-9 col-lg-9 col-xl-9">
+
+        </div>
+        <div class="col-2 col-xs-4 col-sm-3 col-md-3 col-lg-3 col-xl-3">
+            <div class="menu">
+                <button type="button" class="btn btn-outline-dark btn-lg btn-block" onclick="send('main')">На главную</button>
+                <button type="button" class="btn btn-outline-dark btn-lg btn-block" onclick="send('hospital')">Все поликлиники</button>
+                <button type="button" class="btn  btn-outline-dark btn-lg btn-block" onclick="send('hospital')">Разработчик</button>
+            </div>
+        </div>
+        <div class="col-12 col-xs-10 col-sm-8 col-md-10 col-lg-10 col-xl-10">
+        <form>
+        <div class="form-group row">
+            <label for="secondname" class="col-2 col-xs-3 col-sm-4 col-md-3 col-lg-2 col-xl-2 col-form-label">Фамилия:</label>
+            <div class="col-11 col-xs-8 col-sm-8 col-md-8 col-lg-8 col-xl-8">
+                <input type="text" class="form-control" id="secondname">
+            </div>
+        </div>
+            <div class="form-group row">
+                <label for="firstname" class="col-2 col-xs-3 col-sm-4 col-md-3 col-lg-2 col-xl-2 col-form-label">Имя:</label>
+                <div class="col-11 col-xs-8 col-sm-8 col-md-8 col-lg-8 col-xl-8">
+                    <input type="text" class="form-control" id="firstname">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="fathername" class="col-2 col-xs-3 col-sm-4 col-md-3 col-lg-2 col-xl-2 col-form-label">Отчество:</label>
+                <div class="col-11 col-xs-8 col-sm-8 col-md-8 col-lg-8 col-xl-8">
+                    <input type="text" class="form-control" id="fathername" >
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="date" class="col-2 col-xs-3 col-sm-4 col-md-3 col-lg-2 col-xl-2 col-form-label">Дата рождения:</label>
+                <div class="col-11 col-xs-8 col-sm-8 col-md-8 col-lg-8 col-xl-8">
+                    <input type="text" class="form-control" id="date" placeholder="12.11.1998">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="polisnumber" class="col-2 col-xs-3 col-sm-4 col-md-3 col-lg-2 col-xl-2 col-form-label">Номер полиса:</label>
+                <div class="col-11 col-xs-8 col-sm-8 col-md-8 col-lg-8 col-xl-8">
+                    <input type="text" class="form-control" id="polisnumber">
+                </div>
+            </div>
+        <button type="button" class="btn btn-outline-success" onclick="search()">Узнать взятые номерки</button>
+        </form>
+    </div>
+        </div>
+    <div class="row">
+        <div class="col-xs-3 col-sm-4 col-md-5 col-lg-2 col-xl-2">
+        </div>
+        <div class="col-xs-3 col-sm-4 col-md-8 col-lg-8 col-xl-8 d">
+            <div class="get_information">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th scope="col">Доктор</th>
+                        <th scope="col">Дата приема</th>
+                        <th scope="col">Время</th>
+                    </tr>
+                    </thead>
+                    <tbody id="info">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-xs-3 col-sm-4 col-md-5 col-lg-2 col-xl-2">
+        </div>
+
+    </div>
+</body>
+<script>
+
+    "use strict";
+    $(document).ready(function() {
+
+            /*    $(".information").html("<div><button type='button'" +
+                    " class='btn btn-outline-dark btn-lg btn-block' " +
+                    "onclick='send(main)'>На главную</button><button type='button' " +
+                    "class='btn btn-outline-dark btn-lg btn-block' onclick='send(hospital)'>" +
+                    "Все поликлиники</button><button type='button' class='btn  btn-outline-dark btn-lg btn-block' " +
+                    "onclick='send(hospital)'>Разработчик</button></div>");
+*/
+    });
+
+            function send(where) {
+        $.ajax({
+        url: where+".html",
+        cache: false,
+        success: function(html) {
+            $(".main").html(html);
+        }
+        })
+    }
+    function search() {
+        //find=typeCheck(find,[checkText]);
+      find();
+    }
+
+    function giveInform(f,s,father,date,polis){
+        this.firstname=f;
+        this.secondname=s;
+        this.fathername=father;
+        this.date=date;
+        this.polisnumber=polis;
+    }
+function find(){
+    var result=-1;
+    var firstname=document.getElementById("firstname").value;
+    var secondname=document.getElementById("secondname").value;
+    var fathername=document.getElementById("fathername").value;
+    var date=document.getElementById("date").value;
+    var polisnumber=document.getElementById("polisnumber").value;
+    var info=new giveInform(firstname,secondname,fathername,date,polisnumber);
+    info=JSON.stringify(info,"",6);
+    info=JSON.parse(info.toString());
+    for(var key in info){
+     //   alert(info[key])
+    }
+
+    //alert(fathername+","+firstname+","+secondname+","+date+","+polisnumber)
+    if((firstname!="")&&(secondname!="")&&(fathername!="")&&(date!="")&&(polisnumber!="")){
+        $(".get_information").css("visibility", "visible");
+
+        $.ajax({
+            type: 'get',
+            url: "https://api.mongolab.com/api/1/databases/mydatabase/collections/hospital/5b360ed7fb6fc04e35402e71?apiKey=_6BDigQllIiJle4PerntiNKhm2-7vI0I",
+            success: function (database) {
+                for (var i = 0; i < database.patients.length; i++) {
+                    if ((database.patients[i].firstname == firstname) && (database.patients[i].secondname == secondname)
+                        && (database.patients[i].fathername == fathername) && (database.patients[i].date == date)
+                        && (database.patients[i].polisnumber == polisnumber)) {
+
+                        result = i;
+                        break;
+                    }
+
+                }
+                if (result == -1) {
+                    alert("Проверьте правильность введенных данных!")
+                }
+                else {
+                    var html = $("#info");
+                    html.html("");
+                    for (var j = 0; j < database.patients[result].checkes.length; j++) {
+                        html.append("<tr>");
+                        html.append("<th scope='col'>" + database.patients[result].checkes[j].doctor + "</th>");
+                        html.append("<th scope='col'>" + database.patients[result].checkes[j].date + "</th>");
+                        html.append("<th scope='col'>" + database.patients[result].checkes[j].time + "</th>");
+                        html.append("</tr>");
+                    }
+                }
+            }
+        });
+    }
+    else{
+        alert("Должны быть заполнены все поля!")
+    }
+}
+
+    function checkText(text){
+        return typeof text=="number";
+    }
+    function typeCheck(func,checks){
+        return function(){
+            for(var i=0;i<arguments.length;i++){
+                if(!checks[i](arguments[i])){
+                    alert("Проверьте правильность!"+i)
+                    return;
+                }
+            }
+            return func.apply(this);
+        }
+    }
+
+
+
+
+</script>
+}
+</html>

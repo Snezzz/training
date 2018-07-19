@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<!--suppress ALL -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="css/hospital.css">
+    <script src="https://code.jquery.com/jquery-2.2.4.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+</head>
+<body>
+<div class="row">
+    <div class="col-10 col-xs-9 col-sm-9 col-md-9 col-lg-9 col-xl-9">
+
+    </div>
+    <div class="col-2 col-xs-4 col-sm-3 col-md-3 col-lg-3 col-xl-3">
+        <div class="menu">
+            <button type="button" class="btn btn-outline-dark btn-lg btn-block" onclick="send('main')">На главную</button>
+            <button type="button" class="btn btn-outline-dark btn-lg btn-block" onclick="send('hospital')">Все поликлиники</button>
+            <button type="button" class="btn  btn-outline-dark btn-lg btn-block" onclick="send('hospital')">Разработчик</button>
+        </div>
+    </div>
+    <div class="col-12 col-xs-10 col-sm-8 col-md-12 col-lg-12 col-xl-12">
+    <div class="search_doctor">
+        <input class="form-control mr-sm-2" id="doctor_search" type="search" placeholder="Фамилия врача" aria-label="Search">
+        <button class="btn btn-outline-success" type="submit" onclick="give(document.getElementById('doctor_search').value,true)">Найти</button>
+    </div>
+        </div>
+</div>
+    <div class="search" style="margin-top: 5px">
+        <div class="row" style="margin-top: 5px">
+            <div class="col-1 col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                <p>Специальность:</p>
+            </div>
+            <div class="col-12 col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                    <select id="doctor" class="form-control" onchange="give_doctors(document.getElementById('doctor').value)" >
+                        <option selected>-выбрать-</option>
+                    </select>
+            </div>
+            <div class="col-1 col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                <p>Врач:</p>
+            </div>
+            <div class="col-12 col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                <select id="status" class="form-control">
+                    <option selected>-выбрать-</option>
+                </select>
+                <button type="button" class="btn btn-success" id="take" onclick="give(document.getElementById('status').value,true)">Получить</button>
+            </div>
+            </div>
+    </div>
+
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3">
+    <div class="doctors_list">
+        <div class="list-group" id="list-tab" role="tablist">
+        </div>
+    </div>
+        </div>
+    <div class="col-12 col-xs-12 col-sm-12 col-md-9 col-lg-9 col-xl-9">
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col">Дата приема</th>
+            <th scope="col">Время начала</th>
+            <th scope="col">Время окончания</th>
+            <th scope="col">Кабинет</th>
+            <th scope="col">Общее количество номерков</th>
+            <th scope="col">Количество свободных номерков </th>
+        </tr>
+        </thead>
+        <tbody id="info">
+        </tbody>
+    </table>
+        </div>
+</div>
+</body>
+<script>
+
+    $(document).ready(function() {
+        load();
+        load_doctors();
+        take();
+
+    });
+    $('.dropdown-toggle').dropdown('toggle');
+
+    function send(where) {
+        $.ajax({
+            url: where+".html",
+            cache: false,
+            success: function(html){
+                $(".main").html(html);
+
+            },
+            error: function(xhr, ajaxOptions, thrownError) {
+                alert(thrownError+"\r\n"+xhr.statusText+"\r\n"+xhr.responseText);
+            }
+        });
+
+    }
+    function load_doctors() {
+        var result = -1;
+        $.ajax({
+            type: 'get',
+            url: "https://api.mongolab.com/api/1/databases/mydatabase/collections/hospital/5b37a1d7fb6fc03328f71960?apiKey=_6BDigQllIiJle4PerntiNKhm2-7vI0I",
+            success: function (database) {
+                $("#status").html("");
+                for (var i = 0; i < database.specialty.length; i++) {
+                    for (var j = 0; j < database.specialty[i].doctors.length; j++) {
+                        $("#status").append("<option>" + database.specialty[i].doctors[j].name + "</option>")
+                    }
+
+
+            }
+            }
+        });
+    }
+    function give_doctors(which) {
+
+        var result=-1;
+        if(which=="-выбрать-"){
+            load_doctors();
+        }
+        else {
+            $.ajax({
+                type: 'get',
+                url: "https://api.mongolab.com/api/1/databases/mydatabase/collections/hospital/5b37a1d7fb6fc03328f71960?apiKey=_6BDigQllIiJle4PerntiNKhm2-7vI0I",
+                success: function (database) {
+                    //поиск
+                    for (var i = 0; i < database.specialty.length; i++) {
+                        if (database.specialty[i].name == which) {
+                            result = i;
+                            break;
+                        }
+                    }
+                    $("#status").html("");
+                    for (var i = 0; i < database.specialty[result].doctors.length; i++) {
+                        $("#status").append("<option>" + database.specialty[result].doctors[i].name + "</option>")
+                    }
+                }
+            });
+        }
+    }
+    function take() {
+        $.ajax({
+            type:'get',
+            url: "https://api.mongolab.com/api/1/databases/mydatabase/collections/hospital/5b37a1d7fb6fc03328f71960?apiKey=_6BDigQllIiJle4PerntiNKhm2-7vI0I",
+            success: function(database) {
+                for(var i=0;i<database.specialty.length;i++) {
+                    $("#doctor").append("<option>" + database.specialty[i].name + "</option>")
+                }
+            }
+        });
+    }
+function  load() {
+    var id;
+    $.ajax({
+        type: 'get',
+        url: "https://api.mongolab.com/api/1/databases/mydatabase/collections/hospital/5b35fd63fb6fc04e3540232e?apiKey=_6BDigQllIiJle4PerntiNKhm2-7vI0I",
+        success: function (database) {
+            id= $("#list-tab");
+            id.append("<a class='list-group-item list-group-item-action active' data-toggle='list' href='#' role='tab' onclick=give('"+database.doctor[0].name+"') >"+database.doctor[0].name+"("+database.doctor[0].status+")"+"</a>")
+            give(database.doctor[0].name,false)
+            for(var j=1;j<database.doctor.length;j++) {
+                id.append("<a class='list-group-item list-group-item-action' data-toggle='list' href='#' role='tab' onclick=give('"+database.doctor[j].name+"') >"+database.doctor[j].name+"("+database.doctor[j].status+")"+"</a>")
+            }
+
+        }
+    });
+
+}
+    function give(who,activity) {
+        var result=-1;
+        var i=0;
+        $.ajax({
+            type:'get',
+            url: "https://api.mongolab.com/api/1/databases/mydatabase/collections/hospital/5b35fd63fb6fc04e3540232e?apiKey=_6BDigQllIiJle4PerntiNKhm2-7vI0I",
+            success: function(database){
+                for(var i=0;i<database.doctor.length;i++){
+                    if(database.doctor[i].name==who){
+                        result=i;
+                        break;
+                    }
+                }
+                var info=$("#info");
+                info.html("");
+                for(var j=0;j<database.doctor[result].info.length;j++) {
+                    info.append("<tr>");
+                    info.append("<th scope='col'>" + database.doctor[result].info[j].date + "</th>");
+                    info.append("<th scope='col'>" + database.doctor[result].info[j].start_time + "</th>");
+                    info.append("<th scope='col'>" + database.doctor[result].info[j].finish_time + "</th>");
+                    info.append("<th scope='col'>" + database.doctor[result].info[j].cabinet + "</th>");
+                    info.append("<th scope='col'>" + database.doctor[result].info[j].checkes_count + "</th>");
+                    info.append("<th scope='col'>" + database.doctor[result].info[j].free_count + "</th>");
+                    info.append("</tr>");
+
+                }
+            }
+        });
+        //случай поиска
+        if(activity) {
+            take_active(who);
+        }
+    }
+function take_active(who){
+    var elements=document.getElementsByClassName("list-group-item list-group-item-action")
+    var result =[];
+    var status=[];
+    for (var i = 0; i < elements.length; i++) {
+        var  h=elements[i].innerHTML.split("("); //
+        var d=h[1].split(")");
+        status[i]=d[0]; //определяем специальность
+        result[i]=h[0]; //определяем фамилию для поиска среди списка всех фамилий
+    }
+    for (var i = 0; i < elements.length; i++) {
+        //когда мы нашли в списке того, кого искали
+        if(result[i]==who){
+            var prev=document.getElementsByClassName('list-group-item list-group-item-action active');
+            prev[0].className ="list-group-item list-group-item-action"; //убираем с предыдущего активность(выделение)
+            elements[i].className += " active"; //добавляем выбделение к найденному врачу
+        }
+    }
+}
+
+
+</script>
+</html>

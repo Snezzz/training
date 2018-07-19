@@ -1,0 +1,28 @@
+label {
+   text-align: right !important;
+}
+.btn.btn-outline-success {
+    width: 80% !important;
+}
+form{
+    margin-top: 20px;
+}
+.col-form-label{
+    font-size: 150% !important;
+}
+.menu .btn.btn-outline-dark.btn-lg.btn-block {
+    width: 150px !important;
+    height: 30px !important;
+    font-size: 15px !important;;
+    text-align: center  !important;
+    padding: 0 !important;
+}
+.get_information{
+    visibility: hidden;
+}
+
+
+.d{
+    margin-top: 20px !important;
+
+}

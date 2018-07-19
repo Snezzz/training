@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="css/hospital.css">
+    <script src="js/main.js"></script>
+</head>
+<body>
+<div class="row">
+<div class="col-10 col-xs-9 col-sm-9 col-md-9 col-lg-9 col-xl-9">
+
+</div>
+<div class="col-2 col-xs-4 col-sm-3 col-md-3 col-lg-3 col-xl-3">
+    <div class="menu">
+        <button type="button" class="btn btn-outline-dark btn-lg btn-block" onclick="send('main')">На главную</button>
+        <button type="button" class="btn btn-outline-dark btn-lg btn-block" onclick="send('hospital')">Все поликлиники</button>
+        <button type="button" class="btn  btn-outline-dark btn-lg btn-block" onclick="send('hospital')">Разработчик</button>
+    </div>
+</div>
+    <div class="col-12 col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+        <p style="text-align: center !important;margin-top: 20px !important;">Данные о свободных номерках</p>
+    </div>
+    <div class="col-12 col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+    <table class="table table-striped" style="border: 1px solid black; font-size: 14px !important;">
+        <thead style="background-color: #00aa88;">
+        <tr>
+            <th scope="col">№</th>
+            <th scope="col">Врач</th>
+            <th scope="col">Специальность</th>
+            <th scope="col">Всего номерков</th>
+            <th scope="col">Количество свободных номерков</th>
+            <th scope="col">Количество свободных номерков(сегодня)</th>
+        </tr>
+        </thead>
+        <tbody id="info">
+        </tbody>
+    </table>
+        </div>
+    </div>
+<script>
+    $(document).ready(function() {
+       give();
+    });
+</script>
+</body>
+</html>

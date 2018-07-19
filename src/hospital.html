@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Title</title>
+    <link rel="stylesheet" href="css/hospital.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="js/main.js"></script>
+    <script src="https://code.jquery.com/jquery-2.2.4.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+</head>
+<body>
+
+<div class="container-fluid">
+
+        <div class="head">
+        <div class="row">
+            <div class="col-12 col-xs-2 col-sm-2 col-md-2 col-lg-2 col-xl-2">
+                <div id="logo">
+                    <img src="img/никол.jpg">
+                    <div>
+                    <b style="font-size: 100%">СПб ГБУЗ Николаевская больница Поликлиническое отделение Петродворцового района</b>
+                        </div>
+                </div>
+            </div>
+            <div class="col-12 col-xs-9 col-sm-9 col-md-9 col-lg-9 col-xl-9 special" style="text-align: center">
+                    <div>
+                        <div><a class="select">Мобильная версия</a></div>
+                        <div><a class="select">Версия для слабовидящих</a></div>
+                        </div>
+                <div class="information">
+                    <div><b>Справочное:</b></div>
+                    <div>450-70-88</div>
+                    <div><b>Центр-записи:</b></div>
+                    <div>573-99-14</div>
+                </div>
+                <div class="main">
+                </div>
+                    </div>
+            <div class="col-4 col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xl-3">
+
+            </div>
+            </div>
+
+                </div>
+            </div>
+
+
+    <div class="feet">
+            <div class="row">
+                <div class="col-xs-3 col-sm-4 col-md-12 col-lg-12 col-xl-12" style="position: fixed; bottom: 0; left: 1200px">
+                автор
+            </div>
+            </div>
+    </div>
+
+</body>
+<script>
+    $(document).ready(function() {
+        $.ajax({
+            url: "main.html",
+            cache: false,
+            success: function(html){
+                $(".main").html(html);
+            },
+
+            error: function(xhr, ajaxOptions, thrownError) {
+                alert(thrownError+"\r\n"+xhr.statusText+"\r\n"+xhr.responseText);
+            }
+
+        });
+    });
+
+</script>
+</html>

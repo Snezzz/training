@@ -1,0 +1,52 @@
+
+.l{
+    display: inline;
+    float: left;
+    border: solid;
+    border-color: red;
+    text-align: center;
+    width: 100px;
+    height:60px;
+    background-color: red;
+    color: white;
+    font-family: "Adobe Arabic";
+    font-weight: 900;
+    box-shadow: #b3d4fc;
+}
+
+#navbar ul{
+    display: none;
+    position: absolute;
+    border: solid;
+    border-color: red;
+    border-width: 1px;
+    border-radius: 5%;
+    top: 100%;
+}
+#navbar ul li {
+    background-color: white !important;
+    font-size: xx-small !important;
+    float: none !important;
+    text-align: center !important;
+    width: 100px !important;
+    color: rgba(176, 235, 255, 0.59) !important;
+    height: 40px !important;
+}
+#navbar ul li:hover {
+    background-color: rgba(233, 102, 60, 0.59) !important;
+}
+#navbar, #navbar ul {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+#navbar li:hover ul { display: block;}
+#navbar li {
+    float: left  !important;
+    position: relative  !important;
+}
+
+
+a{
+    text-decoration: none;
+}

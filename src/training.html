@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="css/second.css">
+    <link rel="stylesheet" href="http://www.atlasestateagents.co.uk/css/tether.min.css">
+    <script src="https://code.jquery.com/jquery-2.2.4.js"></script>
+    <script src="http://www.atlasestateagents.co.uk/javascript/tether.min.js"></script>
+    <title>Бытовая техника</title>
+</head>
+<body>
+    <ul id="navbar">
+    <li class="l">Бытовая техника
+    <ul>
+        <li><a href="#" onclick="go('login')"> Техника для дома</a></li>
+        <li><a href="#">Кухонная техника</a></li>
+        <li><a href="#">Приготовление кофе</a></li>
+        <li><a href="#">Товары для красоты и здоровья</a></li>
+        <li><a href="#">Климатическая техника</a></li>
+        <li><a href="#">Посуда</a></li>
+        <li><a href="#">Аксессуары и предметы интерьера</a></li>
+    </ul>
+    </li>
+    <li class="l">Косметика
+        <ul>
+            <li><a href="#"> Техника для дома</a></li>
+            <li><a href="#">Кухонная техника</a></li>
+            <li><a href="#">Приготовление кофе</a></li>
+            <li><a href="#">Товары для красоты и здоровья</a></li>
+            <li><a href="#">Климатическая техника</a></li>
+            <li><a href="#">Посуда</a></li>
+            <li><a href="#">Аксессуары и предметы интерьера</a></li>
+        </ul></li>
+    </ul>
+<div id="menu"></div>
+</body>
+<script>
+function go(link) {
+    $.ajax({
+        url: link+".html",
+        cache: false,
+        success: function(html){
+            $("#menu").html(html);
+        }
+    });
+}
+</script>
+</html>

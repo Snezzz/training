@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="css/hospital.css">
+    <script src="js/main.js"></script>
+</head>
+<body>
+<div class="row">
+    <div class="col-10 col-xs-9 col-sm-9 col-md-9 col-lg-9 col-xl-9">
+
+    </div>
+    <div class="col-2 col-xs-4 col-sm-3 col-md-3 col-lg-3 col-xl-3">
+        <div class="menu">
+            <button type="button" class="btn btn-outline-dark btn-lg btn-block" onclick="send('main')">На главную</button>
+            <button type="button" class="btn btn-outline-dark btn-lg btn-block" onclick="send('hospital')">Все поликлиники</button>
+            <button type="button" class="btn  btn-outline-dark btn-lg btn-block" onclick="send('hospital')">Разработчик</button>
+        </div>
+    </div>
+    <div class="col-12 col-xs-11 col-sm-11 col-md-11 col-lg-11 col-xl-11">
+        <div class="load"></div>
+        </div>
+    </div>
+</body>
+<script>
+    var doctor_name=new Map();
+    var k=0;
+    var main= $(".load");
+    $(document).ready(function() {
+        update();
+        setInterval(update,5000);//5 секунд
+       });
+
+function update() {
+
+
+    $.ajax({
+            type: 'get',
+            url: "https://api.mongolab.com/api/1/databases/mydatabase/collections/hospital/5b37a1d7fb6fc03328f71960?apiKey=_6BDigQllIiJle4PerntiNKhm2-7vI0I",
+            success: function(database) {
+                //для каждой специальности
+                for(var i=0;i<database.specialty.length;i++){
+                    var l=database.specialty[i].doctors.length; //число докторов
+                    for(var k=0;k<l;k++){
+                        if(doctor_name.get(database.specialty[i].name)!=undefined){
+                        doctor_name.set(database.specialty[i].name, doctor_name.get(database.specialty[i].name)+","+database.specialty[i].doctors[k].name);
+                            }
+                            else{
+                            doctor_name.set(database.specialty[i].name,database.specialty[i].doctors[k].name);
+                        }
+                    }
+                    //работаем со всеми докторами
+                }
+                main.html("<p style='text-align: center !important;margin-top: 20px !important;'>Выберите специальность</p>");
+
+
+            }
+        }
+
+    );
+    doctor_name.forEach(function(value, key) {
+    //   alert(value);
+        get_count(value);
+    });
+
+}
+function get_count(names) {
+    var d=names.split(",");
+    var length=d.length;
+    var now = new Date();
+    var date=now.getDate()+"."+now.getMonth()+"."+now.getFullYear();
+    var freecount=[];
+    $.ajax({
+        type: 'get',
+        url: "https://api.mongolab.com/api/1/databases/mydatabase/collections/hospital/5b35fd63fb6fc04e3540232e?apiKey=_6BDigQllIiJle4PerntiNKhm2-7vI0I",
+        success: function(database) {
+           // alert("yea");
+            //для каждого доктора
+            for (var i = 0; i < length; i++) {
+                //находим его в новой бд
+                for(var h=0;h<database.doctor.length;h++){
+                    if(database.doctor[h].name==d[i]){
+                       // alert(d[i])
+                        for(var q=0;q<database.doctor[h].info.length;q++){
+                           // alert(database.doctor[h].info[q].date+"="+date)
+                            if(database.doctor[h].info[q].date==date){
+                               freecount[i]=database.doctor[h].info[q].free_count;
+                                //alert(freecount[i])
+                                break;
+                            }
+                        }
+                        break;
+                    }
+                }
+            }
+//            alert("1й-"+freecount[0]+",2й-"+freecount[1]);
+            if(freecount.length==0){
+                for(var i=0;i<d.length;i++){
+                    alert(k+","+d.length)
+                    main.append("<button type='button' class='btn btn-outline-dark btn-lg btn-block'>"+database.specialty[k].name+"(0)"+"</button>");
+                    k++;
+                }
+            }
+            else{
+                for(var i=0;i<freecount.length;i++){
+                    main.append("<button type='button' class='btn btn-outline-dark btn-lg btn-block'>"+database.specialty[k].name+freecount[i]+"</button>");
+                    k++;
+                }
+            }
+            k=k+length;
+        },
+        error: function(xhr, ajaxOptions, thrownError) {
+            alert(thrownError+"\r\n"+xhr.statusText+"\r\n"+xhr.responseText);
+        }
+    });
+        //для каждого доктора
+
+}
+function set_count(){
+    $.ajax({
+        type: 'get',
+        url: "https://api.mongolab.com/api/1/databases/mydatabase/collections/hospital/5b35fd63fb6fc04e3540232e?apiKey=_6BDigQllIiJle4PerntiNKhm2-7vI0I",
+        success: function(database) {
+
+
+
+        }
+    });
+}
+</script>
+</html>
