@@ -12,7 +12,6 @@
 <body>
     <div class="row">
         <div class="col-10 col-xs-9 col-sm-9 col-md-9 col-lg-9 col-xl-9">
-
         </div>
         <div class="col-2 col-xs-4 col-sm-3 col-md-3 col-lg-3 col-xl-3">
             <div class="menu">
@@ -27,35 +26,35 @@
             <label for="secondname" class="col-2 col-xs-3 col-sm-4 col-md-3 col-lg-2 col-xl-2 col-form-label">Фамилия:</label>
             <div class="col-11 col-xs-8 col-sm-8 col-md-8 col-lg-8 col-xl-8">
                 <input type="text" class="form-control" id="secondname">
-                <div class="error"></div>
+                <div class="error" id="first"><span>Только буквы</span></div>
             </div>
         </div>
             <div class="form-group row">
                 <label for="firstname" class="col-2 col-xs-3 col-sm-4 col-md-3 col-lg-2 col-xl-2 col-form-label">Имя:</label>
                 <div class="col-11 col-xs-8 col-sm-8 col-md-8 col-lg-8 col-xl-8">
                     <input type="text" class="form-control" id="firstname">
-                    <div class="error"></div>
+                    <div class="error" id="second"><span>Только буквы</span></div>
                 </div>
             </div>
             <div class="form-group row">
                 <label for="fathername" class="col-2 col-xs-3 col-sm-4 col-md-3 col-lg-2 col-xl-2 col-form-label">Отчество:</label>
                 <div class="col-11 col-xs-8 col-sm-8 col-md-8 col-lg-8 col-xl-8">
                     <input type="text" class="form-control" id="fathername" >
-                    <div class="error"></div>
+                    <div class="error" id="third"><span>Только буквы</span></div>
                 </div>
             </div>
             <div class="form-group row">
                 <label for="date" class="col-2 col-xs-3 col-sm-4 col-md-3 col-lg-2 col-xl-2 col-form-label">Дата рождения:</label>
                 <div class="col-11 col-xs-8 col-sm-8 col-md-8 col-lg-8 col-xl-8">
                     <input type="text" class="form-control" id="date" placeholder="12.11.1998">
-                    <div class="error"></div>
+                    <div class="error" id="forth"><span>Неверный формат даты</span></div>
                 </div>
             </div>
             <div class="form-group row">
                 <label for="polisnumber" class="col-2 col-xs-3 col-sm-4 col-md-3 col-lg-2 col-xl-2 col-form-label">Номер полиса:</label>
                 <div class="col-11 col-xs-8 col-sm-8 col-md-8 col-lg-8 col-xl-8">
                     <input type="text" class="form-control" id="polisnumber">
-                    <div class="error"></div>
+                    <div class="error" id="fifth"><span>Только цифры!</span></div>
                 </div>
             </div>
         <button type="button" class="btn btn-outline-success" onclick="search()">Узнать взятые номерки</button>
@@ -112,25 +111,104 @@
         //find=typeCheck(find,[checkText]);
       find();
     }
-$("form div div ").keyup(function(){
-    var text = document.getElementsByTagName("input")[0];
-    var val = text.value;
+$("form div div").keyup(function(){
+    var text=document.querySelector(".form-control:focus");
+    var panel=text.id;
+    var panelId=$("#"+panel+"");
+    var val = text.value; //текст для каждого input (текущий)
+    var help=$(this).children()[1].id;
+    var help_id= $("#"+help+" span");
     var arr=[];
     arr=val.split("");
     var to_drw=[];
-        for (var i in arr) {
-            if ((arr[i] / 1)) {
-                $(this).css("color", "red");
-                $(".error").html("<span>Только буквы</span>");
-                $(".error").attr("style","visibility:visible !important");
-                break;
-            }
-            else {
-                $("form div div input").css("color", "black")
-                $(".error").attr("style","visibility:hidden !important");
-            }
+    var who= help_id.text()
+    //alert(who)
+    switch (who){
+        case "Только буквы":
+            get_help(arr,panelId,help_id,'string');
+            break;
+        case "Только цифры!":
+            get_help(arr,panelId,help_id,'number');
+            break;
     }
+
 });
+
+    function get_help(arr,panelId,help_id,type) {
+        switch (type){
+            case "string":
+                for (var i in arr) {
+                    if ((arr[i] / 1)) {
+                        panelId.css("color", "red"); //выделили ошибку
+                        help_id.fadeIn(1000);
+                        help_id.fadeOut(4000);
+                        break;
+                    }
+                    else {
+                        panelId.css("color", "black");
+                        help_id.hidden=true;
+                    }
+                }
+                break;
+            case "number":
+                for (var i in arr) {
+                    if (!Number(arr[i])) {
+                        panelId.css("color", "red"); //выделили ошибку
+                        help_id.fadeIn(1000);
+                        help_id.fadeOut(4000);
+                        break;
+                    }
+                    else {
+                        panelId.css("color", "black");
+                        help_id.hidden=true;
+                        break;
+                    }
+                }
+                break;
+          /*  case "date":
+
+                    if (!Date.parse(arr)) {
+                        panelId.css("color", "red"); //выделили ошибку
+                        help_id.css("visibility","visible");
+                        help_id.hidden=false;
+                        help_id.fadeToggle(6000);
+                        break;
+                    }
+                    else {
+                        panelId.css("color", "black");
+                        help_id.hidden=true;
+                        // $(".error").attr("style","visibility:hidden !important");
+                }
+                break;
+                */
+        }
+
+
+    }
+
+    $("#date").focusout( function () {
+       var date=$(this).val();
+        var data=[];
+        var help=$("#forth span");
+        help.hidden=true;
+      if((date.split("/")).length==3){
+        data=date.split("/");
+          $(this).css("color","black");
+      }
+      else if ((date.split(".")).length==3){
+          data=date.split("/");
+          $(this).css("color","black");
+      }
+      else{
+          $(this).css("color","red");
+          //здесь об ошибке
+          help.css("visibility","visible");
+          help.hidden=false;
+          help.fadeIn(1000);
+          help.fadeOut(4000);
+      }
+    });
+
     function giveInform(f,s,father,date,polis){
         this.firstname=f;
         this.secondname=s;
@@ -211,5 +289,4 @@ function find(){
 
 
 </script>
-}
 </html>
